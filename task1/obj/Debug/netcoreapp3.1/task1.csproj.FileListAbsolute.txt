@@ -1,0 +1,12 @@
+/Users/andrejtarasov/RiderProjects/Solution1/task1/bin/Debug/netcoreapp3.1/task1.deps.json
+/Users/andrejtarasov/RiderProjects/Solution1/task1/bin/Debug/netcoreapp3.1/task1.runtimeconfig.json
+/Users/andrejtarasov/RiderProjects/Solution1/task1/bin/Debug/netcoreapp3.1/task1.runtimeconfig.dev.json
+/Users/andrejtarasov/RiderProjects/Solution1/task1/bin/Debug/netcoreapp3.1/task1.dll
+/Users/andrejtarasov/RiderProjects/Solution1/task1/bin/Debug/netcoreapp3.1/task1.pdb
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.csprojAssemblyReference.cache
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.AssemblyInfoInputs.cache
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.AssemblyInfo.cs
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.csproj.CoreCompileInputs.cache
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.dll
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.pdb
+/Users/andrejtarasov/RiderProjects/Solution1/task1/obj/Debug/netcoreapp3.1/task1.genruntimeconfig.cache
