@@ -164,7 +164,7 @@ namespace task1
                     str += " ";
                 }
             }
-            return Encoding.ASCII.GetBytes(str);
+            return Encoding.Default.GetBytes(str);
             
         }
 
@@ -182,7 +182,7 @@ namespace task1
                 encoded.Add(shifr(ints[i1]));
             }
 
-            log(Encoding.ASCII.GetString(ToBytes(encoded)), INPUT);
+            log(Encoding.Default.GetString(ToBytes(encoded)), INPUT);
 
             List<UInt64> result = new List<UInt64>();
             
@@ -191,14 +191,7 @@ namespace task1
                 result.Add(rasshifr(encoded[i1]));
             }
             
-            log(Encoding.ASCII.GetString(ToBytes(result)), INPUT);
-            
-            // UInt64 c_msg = shifr(msg);
-            // Console.WriteLine("{0:X}", c_msg);
-            //
-            //
-            // UInt64 msg_ = rasshifr(c_msg);
-            // Console.WriteLine("{0:X}", msg_);
+            log(Encoding.Default.GetString(ToBytes(result)), INPUT);
         }
     }
 }
