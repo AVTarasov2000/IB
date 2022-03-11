@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace task1
+namespace task2
 {
     public class Program
     {
+	    
         const int N = 10;
         const UInt32 F16 = 0xFFFF;
 
         static UInt64 msg = 0x123456789ABCDEF0;
         static UInt16 K = 0x96EA;
+        
+        static UInt64 IV = 0x18FD47203C7A23BC; 	// инициализационный вектор
+        const int B = 4; // число блоков в исходном сообщении
 
         private static bool STEP = false;
         private static bool INPUT = true;
@@ -56,7 +60,6 @@ namespace task1
             UInt16 x3 = GetSubBlock16(blok, 3);
             UInt16 x4 = GetSubBlock16(blok, 4);
 
-            // Выполняются 8 раундов шифрования
             for (int i = 0; i < N; i++)
             {
                 UInt16 K_i = Generate16Key(i);
@@ -69,7 +72,6 @@ namespace task1
                 UInt16 x4_i = (UInt16)(x4 ^ F_i);
 
                 log(String.Format("in {0} x1 = {1:X}; x2 = {2:X}; x3 = {3:X}; x4 = {4:X};", i, x1, x2, x3, x4), STEP);
-                // Console.WriteLine("in {0} x1 = {1:X}; x2 = {2:X}; x3 = {3:X}; x4 = {4:X};", i, x1, x2, x3, x4);
                 if (i < N - 1)
                 {
                     x1 = x2_i; x2 = x3_i; x3 = x4_i; x4 = x1_i;
@@ -80,7 +82,6 @@ namespace task1
                 }
                 log(String.Format("out {0} x1 = {1:X}; x2 = {2:X}; x3 = {3:X}; x4 = {4:X};", i, x1, x2, x3, x4), STEP);
 
-                // Console.WriteLine("out {0} x1 = {1:X}; x2 = {2:X}; x3 = {3:X}; x4 = {4:X};", i, x1, x2, x3, x4);
             }
             
             UInt64 shifroblok = x1; 
@@ -167,30 +168,79 @@ namespace task1
             
         }
 
+        public static void CBC(List<UInt64> ints)
+        {
+            List<UInt64> encoded = new List<UInt64>();
+            UInt64 blok = ints[0] ^ IV;
+            encoded.Add(shifr(blok));
+            for (int b = 1; b < ints.Count; b++)
+            {
+                blok = ints[b] ^ encoded[b - 1];
+                encoded.Add(shifr(blok));
+            }
+            log(Encoding.Default.GetString(ToBytes(encoded)), INPUT);
+            
+            List<UInt64> result = new List<UInt64>();
+            UInt64 msg_b;
+            msg_b = rasshifr(encoded[0]); 
+            msg_b ^= IV;
+            result.Add(msg_b);
+            for (int b = 1; b < ints.Count; b++)
+            {
+                msg_b = rasshifr(encoded[b]);	
+                msg_b ^= encoded[b - 1]; 		
+                result.Add(msg_b);
+            }
+            log(Encoding.Default.GetString(ToBytes(result)), INPUT);
+        }
+        
+        public static void CFB(List<UInt64> ints)
+        {
+            List<UInt64> encoded = new List<UInt64>();
+            
+            encoded.Add(ints[0] ^ shifr(IV));
+            for (int b = 1; b < ints.Count; b++)
+            {
+                encoded.Add(ints[b] ^ shifr(encoded[b - 1]));
+            }
+            
+            log(Encoding.Default.GetString(ToBytes(encoded)), INPUT);
+            
+            List<UInt64> result = new List<UInt64>();
+            result.Add(encoded[0] ^ shifr(IV));
+            for (int b = 1; b < ints.Count; b++)
+            {
+                result.Add(encoded[b]^shifr(encoded[b-1]));	
+            }
+            log(Encoding.Default.GetString(ToBytes(result)), INPUT);
+        }
+
         public static void Main(string[] args)
         {
             String input = File.ReadAllText(@"/Users/andrejtarasov/Desktop/test.txt");
 
             log(input, INPUT);
             
+            log(String.Format("Init Key {0:X}", K), INPUT);
+            log(String.Format("Init Key {0:X}", IV), INPUT);
+            
+            
             List<UInt64> ints = ToList(GetSafeBites(input));
-
-            List<UInt64> encoded = new List<UInt64>();
-            for (var i1 = 0; i1 < ints.Count; i1++)
-            {
-                encoded.Add(shifr(ints[i1]));
-            }
-
-            log(Encoding.Default.GetString(ToBytes(encoded)), INPUT);
-
-            List<UInt64> result = new List<UInt64>();
-            
-            for (var i1 = 0; i1 < encoded.Count; i1++)
-            {
-                result.Add(rasshifr(encoded[i1]));
-            }
-            
-            log(Encoding.Default.GetString(ToBytes(result)), INPUT);
+            CBC(ints);
+            CFB(ints);
         }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
     }
 }
